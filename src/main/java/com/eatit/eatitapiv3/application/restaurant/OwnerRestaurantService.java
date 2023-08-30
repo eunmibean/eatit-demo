@@ -23,7 +23,7 @@ public class OwnerRestaurantService {
 
     @Transactional
     public Restaurant update(Restaurant updateRestaurant, Long restaurantId) {
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+        var restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new NotFoundException("Restaurant not found with id " + restaurantId));
 
         restaurant.update(updateRestaurant);
@@ -33,7 +33,7 @@ public class OwnerRestaurantService {
 
     @Transactional
     public Restaurant updateStatus(Long id, Boolean status) {
-        Restaurant restaurant = restaurantRepository.findById(id)
+        var restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Restaurant not found with id " + id));
         restaurant.updateStatus(status);
         return restaurant;
@@ -41,8 +41,8 @@ public class OwnerRestaurantService {
     }
 
     public Set<TimeTableSummaryResponse> getTimeTables(Long id) {
-        Set<RestaurantTimeTable> restaurantTimeTableSet =  restaurantTimeTableService.getTimeTables(id);
-        Set<TimeTableSummaryResponse> resultSet = new HashSet<>();
+        final var restaurantTimeTableSet =  restaurantTimeTableService.getTimeTables(id);
+        var resultSet = new HashSet<>();
         for (RestaurantTimeTable timeTable : restaurantTimeTableSet){
             resultSet.add(TimeTableSummaryResponse.toResponse(timeTable));
         }
@@ -56,9 +56,9 @@ public class OwnerRestaurantService {
 
 
     public List<RestaurantSummaryResponse> readAllMyRestaurant(BaseUser user){
-        Long ownerId = user.getId();
-        List<Restaurant> restaurants = restaurantRepository.findAllByOwnerId(ownerId);
-        List<RestaurantSummaryResponse> summary = new ArrayList<>();
+        final var ownerId = user.getId();
+        final var restaurants = restaurantRepository.findAllByOwnerId(ownerId);
+        var summary = new ArrayList<>();
         for (Restaurant restaurant : restaurants) {
             Set<RestaurantTimeTable> timeTables = restaurantTimeTableService.getTimeTables(restaurant.getId());
             summary.add(RestaurantSummaryResponse.toEntity(restaurant, timeTables));
@@ -69,7 +69,7 @@ public class OwnerRestaurantService {
 
     @Transactional
     public void updateMealTicketEnabled(Long id, Boolean mealTicketEnabled){
-        Restaurant restaurant = restaurantRepository.findById(id)
+        var restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Restaurant not found with id " + id));
 
         restaurant.updateMealTicketEnabled(mealTicketEnabled);
