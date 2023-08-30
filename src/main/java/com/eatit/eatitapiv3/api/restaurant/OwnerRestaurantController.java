@@ -44,7 +44,7 @@ public class OwnerRestaurantController {
      */
     @PatchMapping("/{id}/status")
     public ResponseEntity<Restaurant> restaurantUpdateStatus(@PathVariable Long id, @RequestParam Boolean status) {
-        Restaurant restaurant = ownerRestaurantService.updateStatus(id, status);
+        final var restaurant = ownerRestaurantService.updateStatus(id, status);
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
 
@@ -57,7 +57,7 @@ public class OwnerRestaurantController {
      */
     @GetMapping("/{id}/timetable")
     public ResponseEntity<Set<TimeTableSummaryResponse>> restaurantTimeTableList(@PathVariable Long id) {
-        Set<TimeTableSummaryResponse> restaurantTimeTables = ownerRestaurantService.getTimeTables(id);
+        final var restaurantTimeTables = ownerRestaurantService.getTimeTables(id);
         return new ResponseEntity<>(restaurantTimeTables, HttpStatus.OK);
     }
 
@@ -84,7 +84,7 @@ public class OwnerRestaurantController {
      */
     @GetMapping("/my")
     public ResponseEntity<List<RestaurantSummaryResponse>> myRestaurantList(@AuthenticationPrincipal BaseUser user) {
-        List<RestaurantSummaryResponse> result = ownerRestaurantService.readAllMyRestaurant(user);
+        final var result = ownerRestaurantService.readAllMyRestaurant(user);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
